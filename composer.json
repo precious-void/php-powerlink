@@ -1,5 +1,11 @@
 {
     "name": "stelzer/php-powerlink",
+    "description": "A PHP wrapper around the PowerLink CRM API.",
+    "keywords": [
+        "powerlink",
+        "powerlink wrapper",
+        "cli"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -8,5 +14,8 @@
             "email": "shtelzerartem@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.0"
+    }
 }
