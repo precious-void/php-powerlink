@@ -1,6 +1,6 @@
 <?php
 
-namespace PowerLink\Query;
+namespace PowerLink\QuerySyntax;
 
 /**
  * Class OrderBy.
@@ -11,23 +11,25 @@ class OrderBy
     const DESC = 'desc';
 
     /**
+     * Name of field to sort by 
      * @var string
      */
-    protected $field;
+    protected $sort_by;
 
     /**
-     * @var string
+     * Name of field to sort by 
+     * @var ASC|DESC
      */
-    protected $direction;
+    protected $sort_type;
 
     /**
      * @param string $field
-     * @param ASC|DESC|string $direction
+     * @param string $direction
      */
-    public function __construct(string $field, $direction)
+    public function __construct(string $sort_by, $sort_type = self::ASC)
     {
-        $this->setField($field);
-        $this->setDirection($direction);
+        $this->setField($sort_by);
+        $this->setDirection($sort_type);
     }
 
     /**

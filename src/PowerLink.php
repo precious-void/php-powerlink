@@ -127,12 +127,13 @@ class PowerLink
 
     /**
      * Query request
-     * @param array $params 
+     * @param Query $query_object 
      * 
      * @return object
      */
-    public function query(array $params)
+    public function query(Query $query_object)
     {
+        $params = $query_object->getParams();
         return $this->request("POST", "query", $params);
     }
 
