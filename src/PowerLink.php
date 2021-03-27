@@ -3,9 +3,8 @@
 namespace PowerLink;
 
 use PowerLink\Exceptions\PowerLinkException;
-
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 class PowerLink
 {
@@ -74,7 +73,7 @@ class PowerLink
      * @param Client|null $client
      * @return $this
      */
-    public function setHttpClient(Client $client = null)
+    public function setHttpClient($client = null)
     {
         if ($client === null) {
             $client = new Client(self::$token);
@@ -93,22 +92,85 @@ class PowerLink
         return $this->client;
     }
 
-    public function query()
+    /**
+     * Function to resolve data from response
+     */
+    private function resolveResult(ResponseInterface $response)
+    {
+        return json_decode($response->getBody()->getContents());
+    }
+
+    /**
+     * @param string $method Request Method
+     * @param string $path Path
+     * @param array $params Query params
+     * 
+     * @throws PowerLinkException When respose returned with error
+     */
+    private function request(string $method, string $path, array $params)
     {
         try {
-            $response = $this->client->post('/query', [
-                'json' => [
-                    'objecttype' => 'asdsdasdfgasddf',
-                    'page_size' => 50,
-                    'page_number' => 1,
-                    'fields' => '*',
-                ]
+            $response = $this->client->request($method, $path, [
+                'json' => $params
             ]);
-        } catch (RequestException $e) {
-            echo Psr7\Message::toString($e->getRequest());
-            if ($e->hasResponse()) {
-                echo Psr7\Message::toString($e->getResponse());
-            }
+
+            $body = $this->resolveResult($response);
+        } catch (ClientException $exception) {
+            $response = $exception->getResponse();
+            $body = $this->resolveResult($response);
+            $msg = $body->Message;
+            throw new PowerLinkException($msg);
         }
+
+        return $body;
+    }
+
+    /**
+     * Query request
+     * @param array $params 
+     * 
+     * @return object
+     */
+    public function query(array $params)
+    {
+        return $this->request("POST", "query", $params);
+    }
+
+    /**
+     * Create request
+     * @param string $object_type 
+     * @param array $params 
+     * 
+     * @return object
+     */
+    public function create(string $object_type, array $params)
+    {
+        return $this->request("POST", "record/$object_type", $params);
+    }
+
+    /**
+     * Update request
+     * @param string $object_type 
+     * @param int $id
+     * @param array $params 
+     * 
+     * @return object
+     */
+    public function update(string $object_type, int $id, array $params)
+    {
+        return $this->request("PUT", "record/$object_type/$id", $params);
+    }
+
+    /**
+     * Delete request
+     * @param string $object_type 
+     * @param int $id
+     * @param array $params 
+     * 
+     * @return object
+     */
+    public function delete(string $object_type, int $id, array $params)
+    {
+        return $this->request("DELETE", "record/$object_type/$id", $params);
     }
 }

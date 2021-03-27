@@ -26,8 +26,8 @@ class Client
     public function __construct($token_id, $base_url = self::BASE_URL)
     {
         $this->client = new HTTPClient([
-            'base_uri' => $base_url,
-            'headers' => [
+            'base_uri'  => $base_url,
+            'headers'   => [
                 'tokenid'    => $token_id,
                 'User-Agent' => "stelzer/php-powerlink/" . PowerLink::VERSION,
                 'Accept'     => 'application/json'
