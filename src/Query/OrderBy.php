@@ -1,6 +1,6 @@
 <?php
 
-namespace PowerLink\Query\Syntax;
+namespace PowerLink\Query;
 
 /**
  * Class OrderBy.
@@ -11,7 +11,7 @@ class OrderBy
     const DESC = 'desc';
 
     /**
-     * @var Field
+     * @var string
      */
     protected $field;
 
@@ -21,13 +21,8 @@ class OrderBy
     protected $direction;
 
     /**
-     * @var bool
-     */
-    protected $useAlias;
-
-    /**
      * @param string $field
-     * @param string $direction
+     * @param ASC|DESC|string $direction
      */
     public function __construct(string $field, $direction)
     {
@@ -44,7 +39,7 @@ class OrderBy
     }
 
     /**
-     * @param Field $field
+     * @param string $field
      *
      * @return $this
      */

@@ -1,55 +1,52 @@
 <?php
 
-namespace PowerLink\Model;
+namespace PowerLink;
 
 /**
  * Class defining a query request in PowerLink with methods to set
  * query settings
  */
-class QueryModel
+class Query
 {
-    public const ASC = 'asc';
-    public const DESC = 'DESC';
-
     /**
      * Object Type 
      * @var string
      */
-    public $object_type;
+    protected $object_type;
 
     /**
      * Number of items returned per page 
      * @var string
      */
-    public $page_size;
+    protected $page_size;
 
     /**
      * Number of requested page 
      * @var string
      */
-    public $page_number;
+    protected $page_number;
 
     /**
      * Array of requested fields 
      * @var array
      */
-    public $fields;
+    protected $fields;
 
     /**
      * SQL query for selecting ites 
      * @var string
      */
-    public $query;
+    protected $query;
 
     /**
      * Name of field to sort by 
      * @var string
      */
-    public $sort_by;
+    protected $sort_by;
 
     /**
      * Name of field to sort by 
      * @var ASC|DESC
      */
-    public $sort_type;
+    protected $sort_type;
 }
