@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 class PowerLink
 {
     /** @var string Package version */
-    const VERSION = '1.0.0';
+    const VERSION = '1.0.1';
 
     /** @var string The API access token */
     protected static $token = null;
@@ -107,7 +107,7 @@ class PowerLink
      * 
      * @throws PowerLinkException When respose returned with error
      */
-    private function request(string $method, string $path, array $params)
+    private function request(string $method, string $path, array $params = array())
     {
         try {
             $response = $this->client->request($method, $path, [
@@ -134,6 +134,7 @@ class PowerLink
     public function query(Query $query_object)
     {
         $params = $query_object->getParams();
+        print_r($params);
         return $this->request("POST", "query", $params);
     }
 
@@ -157,7 +158,7 @@ class PowerLink
      * 
      * @return object
      */
-    public function update(string $object_type, int $id, array $params)
+    public function update(string $object_type, string $id, array $params)
     {
         return $this->request("PUT", "record/$object_type/$id", $params);
     }
@@ -170,8 +171,8 @@ class PowerLink
      * 
      * @return object
      */
-    public function delete(string $object_type, int $id, array $params)
+    public function delete(string $object_type, string $id)
     {
-        return $this->request("DELETE", "record/$object_type/$id", $params);
+        return $this->request("DELETE", "record/$object_type/$id");
     }
 }
