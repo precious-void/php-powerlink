@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 class PowerLink
 {
     /** @var string Package version */
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
 
     /** @var string The API access token */
     protected static $token = null;
@@ -134,7 +134,6 @@ class PowerLink
     public function query(Query $query_object)
     {
         $params = $query_object->getParams();
-        print_r($params);
         return $this->request("POST", "query", $params);
     }
 

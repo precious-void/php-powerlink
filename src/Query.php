@@ -4,6 +4,7 @@ namespace PowerLink;
 
 use PowerLink\QuerySyntax\OrderBy;
 use PowerLink\QuerySyntax\Where;
+use PowerLink\Exceptions\QueryException;
 
 /**
  * Class defining a query request in PowerLink with methods to set
@@ -123,6 +124,8 @@ class Query
 
     public function getParams()
     {
+        if (!empty($this->object_type)) throw new QueryException('Object type should be specified');
+
         $params = array(
             'objecttype'    => $this->object_type,
             'fields'        => is_array($this->fields) ? implode(',', $this->fields) : '*',
